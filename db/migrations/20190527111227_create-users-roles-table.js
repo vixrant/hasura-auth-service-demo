@@ -1,15 +1,13 @@
 exports.up = function(knex, Promise) {
-  const createQuery = `CREATE TABLE users(
+  const createQuery = `CREATE TABLE users_roles(
     id SERIAL PRIMARY KEY NOT NULL,
-    email TEXT,
-    token TEXT,
-    password_digest TEXT,
-    created_at TIMESTAMP
+    user_id INTEGER REFERENCES users(id),
+    role_name TEXT
   )`;
   return knex.raw(createQuery);
 };
 
 exports.down = function(knex, Promise) {
-  const dropQuery = `DROP TABLE users`;
+  const dropQuery = `DROP TABLE users_roles`;
   return knex.raw(dropQuery);
 };

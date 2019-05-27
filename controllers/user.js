@@ -47,6 +47,13 @@ const createToken = async (user) => {
   return jwt.sign(payload, 'not-so-secret');
 };
 
+const createNewUserToken = () => {
+  const payload = {
+    'X-Hasura-default-role': 'user',
+  };
+
+  return jwt.sign(payload, 'not-so-secret');
+};
 
 const updateUserToken = async (token, user) => {
   const data = await database.raw(
@@ -98,7 +105,7 @@ const createUser = async (user) => {
 exports.signUp = async (req, res) => {
   const user = req.body;
   user.password_digest = await hashPassword(user.password);
-  user.token = await createToken();
+  user.token = createNewUserToken();
   const createdUser = await createUser(user);
   return res.status(201).json({createdUser});
 };
